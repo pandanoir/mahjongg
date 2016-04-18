@@ -1,8 +1,11 @@
 'use strict';
 class Tile {
-    constructor(kind, string) {
+    constructor(kind, string, isDora) {
+        if (typeof isDora === 'undefined') isDora = false;
         this.kind = kind;
         this.string = string;
+        this.isRotated = false;
+        this.isDora = isDora;
     }
     equals(tile) {
         return this.kind === tile.kind && this.string === tile.string;
