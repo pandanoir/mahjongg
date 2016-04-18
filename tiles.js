@@ -7,6 +7,15 @@ class Tile {
     equals(tile) {
         return this.kind === tile.kind && this.string === tile.string;
     }
+    toString() {
+        var res = this.string;
+        var suitsPattern = /bamboo|character|circle/;
+        if (suitsPattern.test(this.kind)) {
+            res = ['', 'イー', 'リャン', 'サン', 'スー', 'ウー', 'ロー', 'チー', 'パー', 'キュー'][this.string];
+            res += {bamboo: 'ソー', character: 'マン', circle: 'ピン'}[this.kind];
+        }
+        return res;
+    }
 };
 class Hand {
     constructor(hand) {
