@@ -15,6 +15,7 @@ const yakuInfo = [
     ['七対子', 'isTitoitsu', 'isSevenPairs'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
+    ['九蓮宝燈', 'isChurenpoto', 'isNineGates'],
     ['国士無双', 'isKokushi|isKokushimuso', 'isThirteenOrphans']
 ];
 const translateToJapanese = new Map(
@@ -370,6 +371,28 @@ const judgeFunctions = new Map([
             if (numberSuit === null) numberSuit = tile.kind;
             return tile.kind === numberSuit;
         }));
+    }],
+    ['isNineGates', hand => {
+        // 九蓮宝燈
+        if (isConcealed(hand) === false) return false;
+        const numberSuit = ['bamboo', 'character', 'circle'];
+        if (!numberSuit.includes(hand[0].tiles[0].kind) ||
+            !hand.every(set => set.tiles.every(tile => tile.kind === hand[0].tiles[0].kind))) return false;
+        return /^\d$/.test(
+            hand.map(set => set.tiles.map(tile => tile.string))
+                .reduce((a, b) => a.concat(b), [])
+                .sort()
+                .join('')
+                .replace('111', '')
+                .replace('2', '')
+                .replace('3', '')
+                .replace('4', '')
+                .replace('5', '')
+                .replace('6', '')
+                .replace('7', '')
+                .replace('8', '')
+                .replace('999', '')
+        );
     }],
     ['isThirteenOrphans', hand => {
         // 国士無双
