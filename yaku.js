@@ -23,8 +23,10 @@ const translateToJapanese = new Map(
         .reduce((a, b) => a.concat(b), [])
 );
 const higherYaku = [
-    ['isTwoSetOfIdenticalSequences', 'isOneSetOfIdenticalSequences'],
-    ['is']
+    ['二盃口', '一盃口'],
+    ['清一色', '混一色'],
+    ['純全帯么九', '混全帯么九'],
+    ['混老頭', '混全帯么九']
 ];
 const translateToChineseCharacter= new Map(yakuInfo.map(item => [item[2], item[0]]));
 const translateFromChineseCharacter= new Map(yakuInfo.map(item => [item[0], item[2]]));
