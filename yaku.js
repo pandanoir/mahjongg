@@ -14,6 +14,7 @@ const yakuInfo = [
     ['三暗刻', 'isSananko', 'isThreeClosedTriplets'],
     ['七対子', 'isTitoitsu', 'isSevenPairs'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
+    ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
     ['国士無双', 'isKokushi|isKokushimuso', 'isThirteenOrphans']
 ];
 const translateToJapanese = new Map(
@@ -357,9 +358,18 @@ const judgeFunctions = new Map([
     }],
     ['isFlush', hand => {
         // 清一色
-        const isNumberSuit = /bamboo|character|circle/;
-        if (!isNumberSuit.test(hand[0][0].kind)) return false;
-        return hand.every(set => set.tiles.every(tile => tile.kind === hand[0][0].kind));
+        const numberSuit = ['bamboo', 'character', 'circle'];
+        if (!numberSuit.includes(hand[0].tiles[0].kind)) return false;
+        return hand.every(set => set.tiles.every(tile => tile.kind === hand[0].tiles[0].kind));
+    }],
+    ['isHalfFlush', hand => {
+        // 混一色
+        let numberSuit = null;
+        return hand.every(set => set.tiles.every(tile => {
+            if (['wind', 'dragon'].includes(tile.kind)) return true;
+            if (numberSuit === null) numberSuit = tile.kind;
+            return tile.kind === numberSuit;
+        }));
     }],
     ['isThirteenOrphans', hand => {
         // 国士無双
