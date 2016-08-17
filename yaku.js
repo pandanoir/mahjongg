@@ -38,10 +38,7 @@ function pattern(tiles) {
     // pong
     if (tiles[0].equals(tiles[1]) && tiles[1].equals(tiles[2])) {
         res = res.concat(
-            pattern(tiles.slice(3)).map(function(item) {
-                // pong means '刻子'
-                return [{type: 'pong', tiles: tiles.slice(0, 3)}].concat(item);
-            })
+            pattern(tiles.slice(3)).map(item => [{type: 'pong', tiles: tiles.slice(0, 3)}].concat(item))// pong means '刻子'
         );
     }
 
@@ -60,9 +57,7 @@ function pattern(tiles) {
                 pattern(tiles.slice(1, i)
                     .concat(tiles.slice(i + 1, j))
                     .concat(tiles.slice(j + 1))
-                ).map(function(item) {
-                    return [{type: 'chow', tiles: [tiles[0], tiles[i], tiles[j]]}].concat(item);
-                })
+                ).map(item => [{type: 'chow', tiles: [tiles[0], tiles[i], tiles[j]]}].concat(item))
             );
         }
     }
@@ -72,9 +67,9 @@ function pattern(tiles) {
 function isThreeColour(firstTiles) {
     if (firstTiles.length < 3) return false;
     if (firstTiles.length === 3) {
-        if (firstTiles.map(function(item) {return item.type}).sort().join(' ') === 'bamboo character circle') {
+        if (firstTiles.map(item => item.type).sort().join(' ') === 'bamboo character circle') {
             // each tiles is different kind.
-            if (/([1-9])\1\1/.test(firstTiles.map(function(item) {return item.string}).join(''))) {
+            if (/([1-9])\1\1/.test(firstTiles.map(item => item.string).join(''))) {
                 // all tile's number is same.
                 return true;
             }

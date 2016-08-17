@@ -11,8 +11,8 @@ class Tile {
         return this.kind === tile.kind && this.string === tile.string;
     }
     toString() {
-        var res = this.string;
-        var suitsPattern = /bamboo|character|circle/;
+        let res = this.string;
+        const suitsPattern = /bamboo|character|circle/;
         if (suitsPattern.test(this.kind)) {
             res = ['', 'イー', 'リャン', 'サン', 'スー', 'ウー', 'ロー', 'チー', 'パー', 'キュー'][this.string];
             res += {bamboo: 'ソー', character: 'マン', circle: 'ピン'}[this.kind];
@@ -45,33 +45,39 @@ class Hand {
         return this.hand.concat(this.pong).concat(this.chow).concat(this.meldedKong).concat(this.concealedKong);
     }
     getBamboo() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'bamboo'})
+        return this.getAllTiles().filter(_ => _.kind === 'bamboo');
     }
     getCharacter() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'character'})
+        return this.getAllTiles().filter(_ => _.kind === 'character');
     }
     getCircle() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'circle'})
+        return this.getAllTiles().filter(_ => _.kind === 'circle');
     }
     getWind() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'wind'})
+        return this.getAllTiles().filter(_ => _.kind === 'wind');
     }
     getDragon() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'dragon'})
+        return this.getAllTiles().filter(_ => _.kind === 'dragon');
     }
     sort() {
-        var bamboos = this.getBamboo();
-        var circles = this.getCircle();
-        var characters = this.getCharacter();
-        var winds = this.getWind();
-        var dragons = this.getDragon();
+        const is = a => {
+            return _ => _.kind === a
+        };
+        const sortTiles = (a, b) => Number(a.string) - Number(b.string);
+
+        const bamboos = this.hand.filter(is('bamboo'));
+        const characters = this.hand.filter(is('character'));
+        const circles = this.hand.filter(is('circle'));
+        const winds = this.hand.filter(is('wind'));
+        const dragons = this.hand.filter(is('dragon'));
 
         bamboos.sort(sortTiles);
         characters.sort(sortTiles);
         circles.sort(sortTiles);
-        winds.sort(function(a, b) {return '東南西北'.indexOf(a.string) - '東南西北'.indexOf(b.string)});
-        dragons.sort(function(a, b) {return '白發中'.indexOf(a.string) - '白發中'.indexOf(b.string)});
+        winds.sort((a, b) => '東南西北'.indexOf(a.string) - '東南西北'.indexOf(b.string));
+        dragons.sort((a, b) => '白發中'.indexOf(a.string) - '白發中'.indexOf(b.string));
 
+        const newHand = new Hand(bamboos.concat(characters).concat(circles).concat(winds).concat(dragons));
         newHand.pong = this.pong.concat();
         newHand.chow = this.chow.concat();
         newHand.meldedKong = this.meldedKong.concat();
@@ -85,34 +91,38 @@ class Hand {
         }
     }
 };
-var bambooSuits = [
+const bambooSuits = [
     null,
     new Tile('bamboo', '1'), new Tile('bamboo', '2'), new Tile('bamboo', '3'),
     new Tile('bamboo', '4'), new Tile('bamboo', '5'), new Tile('bamboo', '6'),
     new Tile('bamboo', '7'), new Tile('bamboo', '8'), new Tile('bamboo', '9')
 ];
 // bambooSuits[1] === new Tile('bamboo', '1');
-var circleSuits = [
-    null,
-    new Tile('circle', '1'), new Tile('circle', '2'), new Tile('circle', '3'),
-    new Tile('circle', '4'), new Tile('circle', '5'), new Tile('circle', '6'),
-    new Tile('circle', '7'), new Tile('circle', '8'), new Tile('circle', '9')
-];
-var characterSuits = [
+const characterSuits = [
     null,
     new Tile('character', '1'), new Tile('character', '2'), new Tile('character', '3'),
     new Tile('character', '4'), new Tile('character', '5'), new Tile('character', '6'),
     new Tile('character', '7'), new Tile('character', '8'), new Tile('character', '9')
 ];
-var honorTiles = [
+const circleSuits = [
+    null,
+    new Tile('circle', '1'), new Tile('circle', '2'), new Tile('circle', '3'),
+    new Tile('circle', '4'), new Tile('circle', '5'), new Tile('circle', '6'),
+    new Tile('circle', '7'), new Tile('circle', '8'), new Tile('circle', '9')
+];
+const honorTiles = [
     new Tile('wind', '東'), new Tile('wind', '南'),
     new Tile('wind', '西'), new Tile('wind', '北'),
     new Tile('dragon', '白'), new Tile('dragon', '發'), new Tile('dragon', '中')
 ];
-module.exports = {
-    Hand: Hand,
-    bambooSuits: bambooSuits,
-    circleSuits: circleSuits,
-    characterSuits: characterSuits,
-    honorTiles: honorTiles
-};
+const emptyTile = new Tile(null, null);
+if (module) {
+    module.exports = {
+        Hand: Hand,
+        bambooSuits: bambooSuits,
+        characterSuits: characterSuits,
+        circleSuits: circleSuits,
+        honorTiles: honorTiles,
+        emptyTile: emptyTile
+    };
+}
