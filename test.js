@@ -12,10 +12,16 @@ const circleSuits = tiles.circleSuits;
 const honorTiles = tiles.honorTiles;
 const Hand = tiles.Hand;
 
+const [east, south, west, north, haku, hatsu, chun] = honorTiles;
+
+
 const testHands = [
     [s[1], s[1], s[1], s[3], s[3], s[3], m[5], m[5], m[5], p[3], p[4], p[5], p[9], p[9]],
     [m[2], m[2], m[5], m[5], m[5], s[6], s[7], s[8], p[2], p[3], p[4], p[7], p[7], p[7]],
     [m[3], m[3], m[4], m[4], m[5], m[5], p[2], p[2], p[3], p[3], p[4], s[9], s[9], p[4]],
+    [m[1], m[1], m[4], m[5], m[6], m[6], m[7], m[8], east, east, east, hatsu, hatsu, hatsu],
+    [m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], hatsu, hatsu, hatsu, north, north],
+    [m[1], m[1], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[9], m[9], m[2]]
 ].map(item => new Hand(item));
 
 testHands.forEach(testHand => {
