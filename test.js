@@ -19,29 +19,15 @@ const testHands = [
 ].map(item => new Hand(item));
 
 testHands.forEach(testHand => {
-    console.log(testHand.hand.map(tile => tileToString(tile)).join(' '));
     console.log(showYaku(testHand));
 });
 
 function showYaku(hand) {
     const yakus = yaku.getYaku(hand);
-    const yakuList　= new Map([
-        ['断么九', 'isAllSimples'],
-        ['一盃口', 'isOneSetOfIdenticalSequences'],
-        ['役牌', 'isHonorTiles'],
-        ['三色同順', 'isThreeColourStraight'],
-        ['混全帯么九', 'isTerminalOrHonorInEachSet'],
-        ['一気通貫', 'isStraight'],
-        ['三色同刻', 'isThreeColourTriplets'],
-        ['三暗刻', 'isThreeClosedTriplets'],
-        ['二盃口', 'isTwoSetOfIdenticalSequences'],
-        ['七対子', 'isSevenPairs'],
-        ['国士無双', 'isThirteenOrphans']
-    ]);
     const res = [];
     for (let i = 0, _i = yakus.length; i < _i; i++) {
         res.push([]);
-        for (const [key, value] of yakuList) {
+        for (const [key, value] of yaku.translateToChineseCharacter) {
             if (yakus[i][value]) res[i].push(key);
         }
     }

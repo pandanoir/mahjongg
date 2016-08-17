@@ -2,6 +2,32 @@
 if (!emptyTile) {
     var emptyTile = require('./tiles.js').emptyTile;
 }
+const yakuInfo = [
+    ['断么九', 'isTanyao|isTanyaochu', 'isAllSimples'],
+    ['一盃口', 'isIpeiko', 'isOneSetOfIdenticalSequences'],
+    ['二盃口', 'isRyanpeiko', 'isTwoSetOfIdenticalSequences'],
+    ['役牌', 'isYakuhai', 'isHonorTiles'],
+    ['三色同順', 'isSanshoku|isSanshokudojun', 'isThreeColourStraight'],
+    ['混全帯么九', 'isHonchantaiyaochu|isChanta', 'isTerminalOrHonorInEachSet'],
+    ['一気通貫', 'isIttsu|isIkkitsukan', 'isStraight'],
+    ['三色同刻', 'isSanshokudoko', 'isThreeColourTriplets'],
+    ['三暗刻', 'isSananko', 'isThreeClosedTriplets'],
+    ['七対子', 'isTitoitsu', 'isSevenPairs'],
+    ['国士無双', 'isKokushi|isKokushimuso', 'isThirteenOrphans']
+];
+const translateToJapanese = new Map(
+    yakuInfo
+        .map(item => item[1].split('|')
+            .map(jap => [jap, item[2]])
+        ) // [[['isTanyao', 'isAllSimples'], ['isTanyaochu', ...]], [['isIpeiko', ...]], ...]
+        .reduce((a, b) => a.concat(b), [])
+);
+const higherYaku = [
+    ['isTwoSetOfIdenticalSequences', 'isOneSetOfIdenticalSequences'],
+    ['is']
+];
+const translateToChineseCharacter= new Map(yakuInfo.map(item => [item[0], item[2]]));
+
 function getValidHands(hand) {
     // only return the pattern which given hand can consist. each pattern has 4 melds(面子) and an eye(雀頭).
     if (hand.hand.length === 13) return [];
@@ -108,28 +134,6 @@ function getYaku(hand) {
     const hands = getValidHands(hand);
     const isSevenPairs = judgeFunctions.get('isSevenPairs')(hand);
     let res = [];
-    const translateToJapanese = new Map([
-        ['isTanyao', 'isAllSimples'],
-        ['isTanyaochu', 'isAllSimples'],
-        ['isIpeiko', 'isOneSetOfIdenticalSequences'],
-        ['isRyanpeiko', 'isTwoSetOfIdenticalSequences'],
-        ['isYakuhai', 'isHonorTiles'],
-        ['isSanshoku', 'isThreeColourStraight'],
-        ['isSanshokudojun', 'isThreeColourStraight'],
-        ['isHonchantaiyaochu', 'isTerminalOrHonorInEachSet'],
-        ['isChanta', 'isTerminalOrHonorInEachSet'],
-        ['isIttsu', 'isStraight'],
-        ['isIkkitsukan', 'isStraight'],
-        ['isSanshokudoko', 'isThreeColourTriplets'],
-        ['isSananko', 'isThreeClosedTriplets'],
-        ['isTitoitsu', 'isSevenPairs'],
-        ['isKokushi', 'isThirteenOrphans'],
-        ['isKokushimuso', 'isThirteenOrphans']
-    ]);
-    const higherYaku = [
-        ['isTwoSetOfIdenticalSequences', 'isOneSetOfIdenticalSequences'],
-        ['is']
-    ];
 
     if (isSevenPairs && hands.length === 0) {
         // seven pairs can be Ryanpeiko(two set of identical sequences)
@@ -371,6 +375,7 @@ const judgeFunctions = new Map([
 if (module) {
     module.exports = {
         getYaku: getYaku,
-        getValidHands: getValidHands
+        getValidHands: getValidHands,
+        translateToChineseCharacter: translateToChineseCharacter
     };
 }
