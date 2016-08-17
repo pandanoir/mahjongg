@@ -15,6 +15,7 @@ const yakuInfo = [
     ['七対子', 'isTitoitsu', 'isSevenPairs'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
+    ['四暗刻', 'isSuanko', 'isFourConcealedTriplets'],
     ['九蓮宝燈', 'isChurenpoto', 'isNineGates'],
     ['国士無双', 'isKokushi|isKokushimuso', 'isThirteenOrphans']
 ];
@@ -371,6 +372,10 @@ const judgeFunctions = new Map([
             if (numberSuit === null) numberSuit = tile.kind;
             return tile.kind === numberSuit;
         }));
+    }],
+    ['isFourConcealedTriplets', hand => {
+        // 四暗刻
+        return hand.filter(set => set.type === 'pong' || set.type === 'concealedKong').length === 4;
     }],
     ['isNineGates', hand => {
         // 九蓮宝燈
