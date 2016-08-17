@@ -26,7 +26,8 @@ const higherYaku = [
     ['isTwoSetOfIdenticalSequences', 'isOneSetOfIdenticalSequences'],
     ['is']
 ];
-const translateToChineseCharacter= new Map(yakuInfo.map(item => [item[0], item[2]]));
+const translateToChineseCharacter= new Map(yakuInfo.map(item => [item[2], item[0]]));
+const translateFromChineseCharacter= new Map(yakuInfo.map(item => [item[0], item[2]]));
 
 function getValidHands(hand) {
     // only return the pattern which given hand can consist. each pattern has 4 melds(面子) and an eye(雀頭).

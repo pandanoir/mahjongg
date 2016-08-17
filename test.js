@@ -28,7 +28,7 @@ function showYaku(hand) {
     for (let i = 0, _i = yakus.length; i < _i; i++) {
         res.push([]);
         for (const [key, value] of yaku.translateToChineseCharacter) {
-            if (yakus[i][value]) res[i].push(key);
+            if (yakus[i][key]) res[i].push(value);
         }
     }
     return res;
