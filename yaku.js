@@ -239,12 +239,12 @@ function createHandFromString(string) {
     return hand;
 }
 const judgeFunctions = new Map([
-    ['isAllSimples', hands => {
+    ['isAllSimples', hand => {
         // 断么九
         // hand is one of the values which getValidHands() returns.
         const isSuit = /bamboo|c(?:haracter|ircle)/;
-        for (const hand of hands) {
-            for (const tile of hand.tiles) {
+        for (const set of hand) {
+            for (const tile of set.tiles) {
                 if (!isSuit.test(tile.kind) || tile.string === '1' || tile.string === '9') {
                     return false;
                 }
@@ -255,63 +255,63 @@ const judgeFunctions = new Map([
     ['isNoPointsHand', hand => {
         // 平和
     }],
-    ['isOneSetOfIdenticalSequences', hands => {
+    ['isOneSetOfIdenticalSequences', hand => {
         // 一盃口
-        if (isConcealed(hands) === false) return false;
+        if (isConcealed(hand) === false) return false;
         const firstTiles = [];
-        for (const hand of hands) {
-            if (hand.type === 'chow') {
+        for (const set of hand) {
+            if (set.type === 'chow') {
                 for (const firstTile of firstTiles) {
-                    if (firstTile.equals(hand.tiles[0])) return true;
+                    if (firstTile.equals(set.tiles[0])) return true;
                 }
-                firstTiles.push(hand.tiles[0]);
+                firstTiles.push(set.tiles[0]);
             }
         }
         return false;
     }],
-    ['isTwoSetOfIdenticalSequences', hands => {
+    ['isTwoSetOfIdenticalSequences', hand => {
         // 二盃口
-        if (isConcealed(hands) === false) return false;
-        const firstTiles = hands.filter(hand => hand.type === 'chow').map(hand => hand.tiles[0]);
+        if (isConcealed(hand) === false) return false;
+        const firstTiles = hand.filter(set => set.type === 'chow').map(set => set.tiles[0]);
         return firstTiles.length === 4 && firstTiles[0].equals(firstTiles[1]) && firstTiles[2].equals(firstTiles[3]);
     }],
-    ['isHonorTiles', hands => {
+    ['isHonorTiles', hand => {
         // 役牌
         const isHonor = /白發中/;
-        for (const hand of hands) {
-            if (hand.type === 'pong' || hand.type === 'calledPong') {
-                if (isHonor.test(hand.tiles[0])) {
+        for (const set of hand) {
+            if (set.type === 'pong' || set.type === 'calledPong') {
+                if (isHonor.test(set.tiles[0])) {
                     return true;
                 }
             }
         }
         return false;
     }],
-    ['isThreeColourStraight', hands => {
+    ['isThreeColourStraight', hand => {
         // 三色同順
         const firstTiles = [];
-        for (const hand of hands) {
-            if (hand.type === 'chow' || hand.type === 'calledChow') firstTiles.push(hand.tiles[0]);
+        for (const set of hand) {
+            if (set.type === 'chow' || set.type === 'calledChow') firstTiles.push(set.tiles[0]);
         }
         return isThreeColour(firstTiles);
     }],
-    ['isTerminalOrHonorInEachSet', hands => {
+    ['isTerminalOrHonorInEachSet', hand => {
         // 混全帯么九
         const isYaochu = /[19東南西北白發中]/;
-        for (const hand of hands) {
+        for (const set of hand) {
             let hasYaochu = false;
-            for (const tile of hand.tiles) {
+            for (const tile of set.tiles) {
                 if (isYaochu.test(tile.string)) hasYaochu = true;
             }
             if (!hasYaochu) return false;
         }
         return true;
     }],
-    ['isStraight', hands => {
+    ['isStraight', hand => {
         // 一気通貫
         const firstTiles = [];
-        for (const hand of hands) {
-            if (hand.type === 'chow' || hand.type === 'calledChow') firstTiles.push(hand.tiles[0]);
+        for (const set of hand) {
+            if (set.type === 'chow' || set.type === 'calledChow') firstTiles.push(set.tiles[0]);
         }
         if (firstTiles.length < 3) return false;
         if (firstTiles.length === 3) {
@@ -330,21 +330,21 @@ const judgeFunctions = new Map([
             return false;
         }
     }],
-    ['isThreeColourTriplets', hands => {
+    ['isThreeColourTriplets', hand => {
         // 三色同刻
         const firstTiles = [];
-        for (const hand of hands) {
-            if (hand.type === 'pong' || hand.type === 'calledPong') firstTiles.push(hand.tiles[0]);
+        for (const set of hand) {
+            if (set.type === 'pong' || set.type === 'calledPong') firstTiles.push(set.tiles[0]);
         }
         return isThreeColour(firstTiles);
     }],
-    ['isAllTripletHand', hands => {
+    ['isAllTripletHand', hand => {
         // 対々和
-        return hands.every(hand => hand.type !== 'chow' && hand.type !== 'calledChow');
+        return hand.every(set => set.type !== 'chow' && set.type !== 'calledChow');
     }],
-    ['isThreeClosedTriplets', hands => {
+    ['isThreeClosedTriplets', hand => {
         // 三暗刻
-        return hands.filter(hand => hand.type === 'pong' || hand.type === 'concealedKong').length === 3;
+        return hand.filter(set => set.type === 'pong' || set.type === 'concealedKong').length === 3;
     }],
     ['isSevenPairs', hand => {
         // 七対子
