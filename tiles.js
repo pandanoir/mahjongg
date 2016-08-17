@@ -59,20 +59,6 @@ class Hand {
     getDragon() {
         return this.getAllTiles().filter(function(_) {return _.kind === 'dragon'})
     }
-    getPairs() {
-        var res = [];
-        var before = new Tile(null, null);
-        for (var tiles = this.sort().getAllTiles(), i = 0, _i = tiles.length; i < _i; i++) {
-            if (tiles[i].equals(before)) {
-                res.push([[tiles[i], tiles[i]], tiles.slice(0, i - 1).concat(tiles.slice(i + 1))]);
-                while (tiles[i].equals(before)) {
-                    i++;
-                }
-            }
-            before = tiles[i];
-        }
-        return res;
-    }
     sort() {
         var bamboos = this.getBamboo();
         var circles = this.getCircle();
