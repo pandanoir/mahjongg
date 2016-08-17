@@ -22,11 +22,18 @@ class Tile {
 };
 class Hand {
     constructor(hand) {
-        var emptyTile = new Tile(null, null);
-        this.hand = hand;
-        this.takenTile = emptyTile;
-        // if this.takenTile === undefined, getAllTiles() returns the array that has undefined on the end.
-        // getBamboo() expect all items to inherit Tile. So it will fail if this.takenTile === undefined.
+        this.hand = hand; // this includes the tile which player has drew.
+        this.pong = []; // array of the tiles which is made by calling pong
+        this.chow = []; // array of the tiles which is made by calling chow
+        this.meldedKong = []; // array of melded kong
+        this.concealedKong = []; // array of concealed kong
+
+        // format of pong, chow or kong
+        // {
+        //     type: 'pong or chow or kong',
+        //     tiles: [tiles...]
+        // }
+
     }
     draw(tile) {
         this.hand.push(tile);
@@ -35,16 +42,16 @@ class Hand {
         this.hand.splice(index, 1);
     }
     getAllTiles() {
-        return this.hand.concat(this.takenTile);
+        return this.hand.concat(this.pong).concat(this.chow).concat(this.meldedKong).concat(this.concealedKong);
     }
     getBamboo() {
         return this.getAllTiles().filter(function(_) {return _.kind === 'bamboo'})
     }
-    getCircle() {
-        return this.getAllTiles().filter(function(_) {return _.kind === 'circle'})
-    }
     getCharacter() {
         return this.getAllTiles().filter(function(_) {return _.kind === 'character'})
+    }
+    getCircle() {
+        return this.getAllTiles().filter(function(_) {return _.kind === 'circle'})
     }
     getWind() {
         return this.getAllTiles().filter(function(_) {return _.kind === 'wind'})
@@ -74,15 +81,17 @@ class Hand {
         var dragons = this.getDragon();
 
         bamboos.sort(sortTiles);
-        circles.sort(sortTiles);
         characters.sort(sortTiles);
+        circles.sort(sortTiles);
         winds.sort(function(a, b) {return '東南西北'.indexOf(a.string) - '東南西北'.indexOf(b.string)});
         dragons.sort(function(a, b) {return '白發中'.indexOf(a.string) - '白發中'.indexOf(b.string)});
 
-        return new Hand(bamboos.concat(circles).concat(characters).concat(winds).concat(dragons));
-        function sortTiles(a, b) {
-            return Number(a.string) - Number(b.string);
-        };
+        newHand.pong = this.pong.concat();
+        newHand.chow = this.chow.concat();
+        newHand.meldedKong = this.meldedKong.concat();
+        newHand.concealedKong = this.concealedKong.concat();
+
+        return newHand;
     }
     [Symbol.iterator]() {
         for (let hand = this.getAllTiles(), i = 0, _i = hand.length; i < _i; i++) {
