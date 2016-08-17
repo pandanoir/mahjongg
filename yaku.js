@@ -26,14 +26,24 @@ const translateToJapanese = new Map(
         ) // [[['isTanyao', 'isAllSimples'], ['isTanyaochu', ...]], [['isIpeiko', ...]], ...]
         .reduce((a, b) => a.concat(b), [])
 );
+const translateToChineseCharacter = new Map(yakuInfo.map(item => [item[2], item[0]]));
+const translateFromChineseCharacter = new Map(yakuInfo.map(item => [item[0], item[2]]));
+let yakumans = [
+    '四暗刻',
+    '九蓮宝燈',
+    '国士無双'
+];
+let notYakumans = yakuInfo.map(item => item[0]).filter(item => !yakumans.includes(item));
+
+yakumans = yakumans.map(character => translateFromChineseCharacter.get(character));
+notYakumans = notYakumans.map(character => translateFromChineseCharacter.get(character));
+
 const higherYaku = [
     ['二盃口', '一盃口'],
     ['清一色', '混一色'],
     ['純全帯么九', '混全帯么九'],
     ['混老頭', '混全帯么九']
-];
-const translateToChineseCharacter= new Map(yakuInfo.map(item => [item[2], item[0]]));
-const translateFromChineseCharacter= new Map(yakuInfo.map(item => [item[0], item[2]]));
+].map(item => item.map(character => translateFromChineseCharacter.get(character)));
 
 function getValidHands(hand) {
     // only return the pattern which given hand can consist. each pattern has 4 melds(面子) and an eye(雀頭).
@@ -165,6 +175,17 @@ function getYaku(hand) {
     for (let i = 0, _i = res.length; i < _i; i++) {
         for (const [key, value] of translateToJapanese) {
             res[i][key] = res[i][value];
+        }
+    }
+    for (let i = 0, _i = res.length; i < _i; i++) {
+        for (const [higher, lower] of higherYaku) {
+            if (res[i][higher]) res[i][lower] = false;
+        }
+        for (const yakuman of yakumans) {
+            if (res[i][yakuman]) {
+                for (const notYakuman of notYakumans) res[i][notYakuman] = false;
+                break;
+            }
         }
     }
     function createYakuList() {
