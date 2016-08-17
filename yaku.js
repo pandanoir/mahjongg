@@ -277,10 +277,10 @@ const judgeFunctions = new Map([
     }],
     ['isHonorTiles', hand => {
         // 役牌
-        const isHonor = /白發中/;
+        const honor = ['白', '發', '中'];
         for (const set of hand) {
             if (set.type === 'pong' || set.type === 'calledPong') {
-                if (isHonor.test(set.tiles[0])) {
+                if (honor.includes(set.tiles[0].string)) {
                     return true;
                 }
             }
