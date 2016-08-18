@@ -14,6 +14,7 @@ const yakuInfo = [
     ['三暗刻', 'isSananko', 'isThreeClosedTriplets'],
     ['対々和', 'isToitoi|isToitoiho', 'isAllTripletHand'],
     ['七対子', 'isTitoitsu', 'isSevenPairs'],
+    ['混老頭', 'isHonroto|isHonro', 'isAllTerminalsAndHonors']
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
     ['四暗刻', 'isSuanko', 'isFourConcealedTriplets'],
@@ -276,15 +277,7 @@ const judgeFunctions = new Map([
     ['isAllSimples', hand => {
         // 断么九
         // hand is one of the values which getValidHands() returns.
-        const isSuit = /bamboo|c(?:haracter|ircle)/;
-        for (const set of hand) {
-            for (const tile of set.tiles) {
-                if (!isSuit.test(tile.kind) || tile.string === '1' || tile.string === '9') {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return hand.every(set => set.tiles.every(tile => !tile.isYaochu()));
     }],
     ['isNoPointsHand', hand => {
         // 平和
@@ -392,6 +385,10 @@ const judgeFunctions = new Map([
         }
         return true;
     }],
+    ['isAllTerminalsAndHonors', hand => {
+        // 混老頭
+        return hand.every(set => set.tiles.every(tile => tile.isYaochu()));
+    }]
     ['isFlush', hand => {
         // 清一色
         const numberSuit = ['bamboo', 'character', 'circle'];
