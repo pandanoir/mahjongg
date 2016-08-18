@@ -14,7 +14,7 @@ const yakuInfo = [
     ['三暗刻', 'isSananko', 'isThreeClosedTriplets'],
     ['対々和', 'isToitoi|isToitoiho', 'isAllTripletHand'],
     ['七対子', 'isTitoitsu', 'isSevenPairs'],
-    ['混老頭', 'isHonroto|isHonro', 'isAllTerminalsAndHonors']
+    ['混老頭', 'isHonroto|isHonro', 'isAllTerminalsAndHonors'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
     ['四暗刻', 'isSuanko', 'isFourConcealedTriplets'],
@@ -388,7 +388,7 @@ const judgeFunctions = new Map([
     ['isAllTerminalsAndHonors', hand => {
         // 混老頭
         return hand.every(set => set.tiles.every(tile => tile.isYaochu()));
-    }]
+    }],
     ['isFlush', hand => {
         // 清一色
         const numberSuit = ['bamboo', 'character', 'circle'];

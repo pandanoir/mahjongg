@@ -11,7 +11,7 @@ class Tile {
         return this.kind === tile.kind && this.string === tile.string;
     }
     isYaochu() {
-        return ['wind', 'dragon'].includes(this.kind) || tile.string === '1' || tile.string === '9';
+        return ['wind', 'dragon'].includes(this.kind) || this.string === '1' || this.string === '9';
     }
     toString() {
         let res = this.string;
