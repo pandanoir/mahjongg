@@ -33,6 +33,8 @@ const testHands = [
     [s[3], s[3], s[3], s[1], s[1], s[1], m[5], m[5], m[5], p[7], p[7], p[7], p[9], p[9]]
 ].map(item => new Hand(item));
 
+testHands.push(yaku.createHandFromString('5m 5m 8m 8m 8m 西 西 [pong: 2s +2s 2s] [pong: 1m +1m 1m] 5m'));
+
 testHands.forEach(testHand => {
     console.log(showYaku(testHand));
 });

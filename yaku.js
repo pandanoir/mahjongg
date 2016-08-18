@@ -1,6 +1,6 @@
 'use strict';
 if (!emptyTile) {
-    var emptyTile = require('./tiles.js').emptyTile;
+    var {Hand, bambooSuits, characterSuits, circleSuits, honorTiles, emptyTile} = require('./tiles.js');
 }
 const yakuInfo = [
     ['断么九', 'isTanyao|isTanyaochu', 'isAllSimples'],
@@ -203,7 +203,7 @@ function getYaku(hand) {
 }
 function createHandFromString(string) {
     const hand = new Hand([]);
-    const suitsPattern = /(\+)?(イー|リャン|サン|スー|ウー|ロー|チー|パー|キュー)(ピン|ソー|マン|ワン)(R?) ?/g;
+    const suitsPattern = /(\+)?(イー|リャン|サン|スー|ウー|ロー|チー|パー|キュー|\d)(ピン|ソー|マン|ワン|[psm])(R?) ?/g;
     const honorPattern = /(\+)?([東南西北白發中]) ?/g;
     const numberDic = new Map([
         ['イー', 1],
@@ -214,7 +214,16 @@ function createHandFromString(string) {
         ['ロー', 6],
         ['チー', 7],
         ['パー', 8],
-        ['キュー', 9]
+        ['キュー', 9],
+        ['1', 1],
+        ['2', 2],
+        ['3', 3],
+        ['4', 4],
+        ['5', 5],
+        ['6', 6],
+        ['7', 7],
+        ['8', 8],
+        ['9', 9]
     ]);
 
     string = string.replace(/\[(pong|chow|meldedKong|concealedKong):(.+?)\]/g, (_, type, tiles) => {
@@ -246,9 +255,9 @@ function createHandFromString(string) {
         let tile;
         const num = numberDic.get(_num);
 
-        if (kind === 'ソー') tile = bambooSuits[num];
-        if (kind === 'マン' || kind === 'ワン') tile = characterSuits[num];
-        if (kind === 'ピン') tile = circleSuits[num];
+        if (kind === 'ソー' || kind === 's') tile = bambooSuits[num];
+        if (kind === 'マン' || kind === 'ワン' || kind === 'm') tile = characterSuits[num];
+        if (kind === 'ピン' || kind === 'p') tile = circleSuits[num];
 
         if (isDora === 'R') tile = new Tile(tile.kind, tile.string, true);
 
@@ -449,6 +458,7 @@ if (module) {
     module.exports = {
         getYaku: getYaku,
         getValidHands: getValidHands,
-        translateToChineseCharacter: translateToChineseCharacter
+        translateToChineseCharacter: translateToChineseCharacter,
+        createHandFromString: createHandFromString
     };
 }
