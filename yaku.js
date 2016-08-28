@@ -14,6 +14,7 @@ const yakuInfo = [
     ['三暗刻', 'isSananko', 'isThreeClosedTriplets'],
     ['混老頭', 'isHonroto|isHonro', 'isAllTerminalsAndHonors'],
     ['三色同刻', 'isSanshokudoko', 'isThreeColourTriplets'],
+    ['三槓子', 'isThreeKans', 'isSankantsu'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
     ['二盃口', 'isRyanpeiko', 'isTwoSetOfIdenticalSequences'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
@@ -376,6 +377,9 @@ const judgeFunctions = new Map([
             if (set.type === 'pong' || set.type === 'calledPong') firstTiles.push(set.tiles[0]);
         }
         return isThreeColour(firstTiles);
+    }],
+    ['isThreeKans', hand => {
+        return hand.filter(set => set.type === 'concealedKong' || set.type === 'meldedKong').length === 3;
     }],
     ['isHalfFlush', hand => {
         // 混一色
