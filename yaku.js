@@ -380,7 +380,7 @@ const judgeFunctions = new Map([
     ['isLittleThreeDragons', hand => {
         // 小三元
         const dragons = ['白', '發', '中'];
-        return dragons.includes(hand.filter(set => set.type === 'eye').tiles[0]) &&
+        return dragons.includes(hand.filter(set => set.type === 'eye')[0].tiles[0]) &&
             hand.filter(set => ['pong', 'calledPong', 'concealedKong', 'meldedKong'].includes(set.type) && dragons.includes(set.tiles[0]));
     }],
     ['isHalfFlush', hand => {
