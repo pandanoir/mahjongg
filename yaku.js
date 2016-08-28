@@ -28,6 +28,7 @@ const yakuInfo = [
     ['大四喜', 'isDaisushi|isTasushi', 'isBigFourWinds'],
     ['緑一色', 'isRyuiso', 'isAllGreen'],
     ['清老頭', 'isChinroto', 'isAllTerminals'],
+    ['四槓子', 'isSukantsu', 'isFourKans'],
     ['九蓮宝燈', 'isChurenpoto', 'isNineGates']
 ];
 const translateToJapanese = new Map(
@@ -48,6 +49,7 @@ let yakumans = [
     '大四喜',
     '緑一色',
     '清老頭',
+    '四槓子',
     '九蓮宝燈',
 ];
 let notYakumans = yakuInfo.map(item => item[0]).filter(item => !yakumans.includes(item));
@@ -467,6 +469,10 @@ const judgeFunctions = new Map([
     ['isAllTerminals', hand => {
         // 清老頭
         return hand.every(set => set.tiles.every(tile => tile.string === '1' || tile.string === '9'));
+    }],
+    ['isFourKans', hand => {
+        // 四槓子
+        return hand.filter(set => ['concealedKong', 'meldedKong'].includes(set.type)).length === 4;
     }],
     ['isNineGates', hand => {
         // 九蓮宝燈
