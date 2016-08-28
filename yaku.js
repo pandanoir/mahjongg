@@ -40,9 +40,15 @@ const translateToJapanese = new Map(
 const translateToChineseCharacter = new Map(yakuInfo.map(item => [item[2], item[0]]));
 const translateFromChineseCharacter = new Map(yakuInfo.map(item => [item[0], item[2]]));
 let yakumans = [
+    '国士無双',
     '四暗刻',
+    '大三元',
+    '字一色',
+    '小四喜',
+    '大四喜',
+    '緑一色',
+    '清老頭',
     '九蓮宝燈',
-    '国士無双'
 ];
 let notYakumans = yakuInfo.map(item => item[0]).filter(item => !yakumans.includes(item));
 
