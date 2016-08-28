@@ -129,7 +129,7 @@ function pattern(tiles) {
 function isThreeColour(firstTiles) {
     if (firstTiles.length < 3) return false;
     if (firstTiles.length === 3) {
-        if (firstTiles.map(item => item.type).sort().join(' ') === 'bamboo character circle') {
+        if (firstTiles.map(item => item.kind).sort().join(' ') === 'bamboo character circle') {
             // each tiles is different kind.
             if (/([1-9])\1\1/.test(firstTiles.map(item => item.string).join(''))) {
                 // all tile's number is same.
@@ -140,7 +140,7 @@ function isThreeColour(firstTiles) {
         // firstTiles.length === 4
         for (let i = 0, _i = firstTiles.length; i < _i; i++) {
             let _firstTiles = firstTiles.slice(0, i).concat(firstTiles.slice(i + 1));
-            if (_firstTiles.map(item => item.type).sort().join(' ') === 'bamboo character circle') {
+            if (_firstTiles.map(item => item.kind).sort().join(' ') === 'bamboo character circle') {
                 if (/([1-9])\1\1/.test(_firstTiles.map(item => item.string).join(''))) {
                     return true;
                 }
@@ -338,14 +338,14 @@ const judgeFunctions = new Map([
         }
         if (firstTiles.length < 3) return false;
         if (firstTiles.length === 3) {
-            if (!(firstTiles[0].type === firstTiles[1].type && firstTiles[1].type === firstTiles[2].type)) {
+            if (!(firstTiles[0].kind === firstTiles[1].kind && firstTiles[1].kind === firstTiles[2].kind)) {
                 return false;
             }
             if (firstTiles[0].string === '1' && firstTiles[1].string === '4' && firstTiles[2].string === '7') return true;
             return false;
         } else if (firstTiles.length === 4) {
-            if (!(firstTiles[0].type === firstTiles[1].type && firstTiles[1].type === firstTiles[2].type) &&
-                !(firstTiles[1].type === firstTiles[2].type && firstTiles[2].type === firstTiles[3].type)) {
+            if (!(firstTiles[0].kind === firstTiles[1].kind && firstTiles[1].kind === firstTiles[2].kind) &&
+                !(firstTiles[1].kind === firstTiles[2].kind && firstTiles[2].kind === firstTiles[3].kind)) {
                 return false;
             }
             if (firstTiles[0].string === '1' && firstTiles[1].string === '4' && firstTiles[2].string === '7' ||
