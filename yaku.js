@@ -24,6 +24,7 @@ const yakuInfo = [
     ['四暗刻', 'isSuanko', 'isFourConcealedTriplets'],
     ['大三元', 'isDaisangen', 'isBigThreeDragons'],
     ['字一色', 'isTsuiso', 'isAllHonors'],
+    ['四喜和', 'isShosushi|isShaosushi', 'isLittleFourWinds'],
     ['九蓮宝燈', 'isChurenpoto', 'isNineGates']
 ];
 const translateToJapanese = new Map(
@@ -440,6 +441,11 @@ const judgeFunctions = new Map([
     ['isAllHonors', hand => {
         // 字一色
         return hand.every(set => set.tiles.every(tile => ['wind', 'dragon'].includes(tile.kind)));
+    }],
+    ['isLittleFourWinds', hand => {
+        // 小四喜
+        return hand.filter(set => set.type === 'eye')[0].kind === 'wind' &&
+            hand.filter(set => ['pong', 'calledPong', 'concealedKong', 'meldedKong'].includes(set.type) && set.tiles[0].kind === 'wind').length === 3;
     }],
     ['isNineGates', hand => {
         // 九蓮宝燈
