@@ -435,7 +435,7 @@ const judgeFunctions = new Map([
     }],
     ['isBigThreeDragons', hand => {
         // 大三元
-        hand.filter(set => ['pong', 'calledPong'].includes(set.type) && ['白', '發', '中'].includes(set.tiles[0].string));
+        return hand.filter(set => ['pong', 'calledPong'].includes(set.type) && ['白', '發', '中'].includes(set.tiles[0].string)).length === 3;
     }],
     ['isAllHonors', hand => {
         // 字一色
