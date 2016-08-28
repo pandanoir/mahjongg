@@ -17,6 +17,7 @@ const yakuInfo = [
     ['三槓子', 'isSankantsu', 'isThreeKans'],
     ['小三元', 'isShosangen', 'isLittleThreeDragons'],
     ['混一色', 'isHonitsu|isHoniso', 'isHalfFlush'],
+    ['純全帯么九', 'isJunchan|isJunchantaiyaochu', 'isTerminalInEachSet'],
     ['二盃口', 'isRyanpeiko', 'isTwoSetOfIdenticalSequences'],
     ['清一色', 'isTinitsu|isTiniso', 'isFlush'],
     ['国士無双', 'isKokushi|isKokushimuso', 'isThirteenOrphans'],
@@ -398,6 +399,9 @@ const judgeFunctions = new Map([
             return tile.kind === numberSuit;
         }));
     }],
+    ['isTerminalInEachSet', hand => {
+        // 純全帯么九
+        return hand.every(set => set.tiles.some(tile => tile.string === '1' || tile.string === '9'));
     ['isTwoSetOfIdenticalSequences', hand => {
         // 二盃口
         if (isConcealed(hand) === false) return false;
