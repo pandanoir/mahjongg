@@ -341,15 +341,8 @@ const judgeFunctions = new Map([
     }],
     ['isTerminalOrHonorInEachSet', hand => {
         // 混全帯么九
-        const isYaochu = /[19東南西北白發中]/;
-        for (const set of hand) {
-            let hasYaochu = false;
-            for (const tile of set.tiles) {
-                if (isYaochu.test(tile.string)) hasYaochu = true;
-            }
-            if (!hasYaochu) return false;
-        }
-        return true;
+        const yaochu = '19東南西北白發中'.split('');
+        return hand.every(set => set.tiles.some(tile => yaochu.includes(tile.string)));
     }],
     ['isSevenPairs', hand => {
         // 七対子
@@ -402,6 +395,7 @@ const judgeFunctions = new Map([
     ['isTerminalInEachSet', hand => {
         // 純全帯么九
         return hand.every(set => set.tiles.some(tile => tile.string === '1' || tile.string === '9'));
+    }],
     ['isTwoSetOfIdenticalSequences', hand => {
         // 二盃口
         if (isConcealed(hand) === false) return false;
