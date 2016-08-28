@@ -26,6 +26,7 @@ const yakuInfo = [
     ['字一色', 'isTsuiso', 'isAllHonors'],
     ['小四喜', 'isShosushi|isShaosushi', 'isLittleFourWinds'],
     ['大四喜', 'isDaisushi|isTasushi', 'isBigFourWinds'],
+    ['緑一色', 'isRyuiso', 'isAllGreen'],
     ['清老頭', 'isChinroto', 'isAllTerminals'],
     ['九蓮宝燈', 'isChurenpoto', 'isNineGates']
 ];
@@ -453,10 +454,14 @@ const judgeFunctions = new Map([
         // 大四喜
         return hand.filter(set => ['pong', 'calledPong', 'concealedKong', 'meldedKong'].includes(set.type) && set.tiles[0].kind === 'wind').length === 4;
     }],
+    ['isAllGreen', hand => {
+        // 緑一色
+        return hand.every(set => set.tiles.every(tile => ['2', '3', '4', '6', '8'].includes(tile.string) && tile.kind === 'bamboo' || tile.string === '發'));
+    }],
     ['isAllTerminals', hand => {
         // 清老頭
         return hand.every(set => set.tiles.every(tile => tile.string === '1' || tile.string === '9'));
-    }]
+    }],
     ['isNineGates', hand => {
         // 九蓮宝燈
         if (isConcealed(hand) === false) return false;
