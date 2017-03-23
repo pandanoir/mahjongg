@@ -4,6 +4,7 @@ const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = Mahjongg.bambooSuits;
 const [m1, m2, m3, m4, m5, m6, m7, m8, m9] = Mahjongg.characterSuits;
 const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = Mahjongg.circleSuits;
 const [east, south, west, north, haku, hatsu, chun] = Mahjongg.honorTiles;
+const {EAST, NORTH, WEST, SOUTH, Table} = Mahjongg;
 
 const Hand = Mahjongg.Hand;
 
@@ -44,3 +45,19 @@ function showYaku(hand) {
     }
     return res;
 }
+const table = new Table([
+    // EAST
+    p7,s8,p3,haku,m7,north,p6,s9,haku,s2,north,p9,s9,hatsu,p6,m3,p3,
+    p9,p8,p1,p8,s9,hatsu,m1,s2,p2,s4,s1,west,m5,s3,m4,east,p1,
+    // NORTH
+    west,s5,chun,p5,m2,p9,p9,m5,east,m3,m8,p2,s1,s8,p7,east,p6,
+    m6,p4,north,m1,p3,p5,chun,m8,s6,m3,p6,s2,s5,m6,m5,p1,p7,
+    // WEST
+    s4,west,m4,m7,m6,p3,m2,s3,s1,s5,s1,m6,chun,m5,p7,p8,s4,
+    s7,m8,p4,m9,s7,m2,east,s7,p5,south,p2,s4,s2,south,s6,south,m2,
+    // SOUTH
+    west,s3,haku,s6,m9,s6,p4,m7,m8,m4,m1,s8,north,hatsu,south,hatsu,s9,
+    p5,m9,s8,m3,p4,chun,m9,m4,p1,p8,p2,m7,s7,m1,s3,haku, s5
+]);
+table.start(4);
+console.log(table.getWall(NORTH).map(item => item.toString()));
