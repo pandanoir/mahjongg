@@ -1,12 +1,11 @@
-const tiles = require('./tiles.js');
-const yaku = require('./yaku.js');
+const Mahjongg = require('./dist/mahjongg.js');
 
-const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = tiles.bambooSuits;
-const [m1, m2, m3, m4, m5, m6, m7, m8, m9] = tiles.characterSuits;
-const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = tiles.circleSuits;
-const [east, south, west, north, haku, hatsu, chun] = tiles.honorTiles;
+const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = Mahjongg.bambooSuits;
+const [m1, m2, m3, m4, m5, m6, m7, m8, m9] = Mahjongg.characterSuits;
+const [p1, p2, p3, p4, p5, p6, p7, p8, p9] = Mahjongg.circleSuits;
+const [east, south, west, north, haku, hatsu, chun] = Mahjongg.honorTiles;
 
-const Hand = tiles.Hand;
+const Hand = Mahjongg.Hand;
 
 const testHands = [
     [s1, s1, s1, s3, s3, s3, m5, m5, m5, p3, p4, p5, p9, p9],
@@ -28,18 +27,18 @@ const testHands = [
     [m6, m7, m8, s6, s7, s8, p6, p7, p8, p6, p7, p8, south, south],
 ].map(item => new Hand(item));
 
-testHands.push(yaku.createHandFromString('5m 5m 8m 8m 8m 西 西 [pong: 2s +2s 2s] [pong: 1m +1m 1m] 5m'));
+testHands.push(Mahjongg.createHandFromString('5m 5m 8m 8m 8m 西 西 [pong: 2s +2s 2s] [pong: 1m +1m 1m] 5m'));
 
 testHands.forEach(testHand => {
     console.log(showYaku(testHand));
 });
 
 function showYaku(hand) {
-    const yakus = yaku.getYaku(hand);
+    const yakus = Mahjongg.getYaku(hand);
     const res = [];
     for (let i = 0, _i = yakus.length; i < _i; i++) {
         res.push([]);
-        for (const [key, value] of yaku.translateToChineseCharacter) {
+        for (const [key, value] of Mahjongg.translateToChineseCharacter) {
             if (yakus[i][key]) res[i].push(value);
         }
     }

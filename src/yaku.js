@@ -1,7 +1,5 @@
 'use strict';
-if (!emptyTile) {
-    var {Hand, bambooSuits, characterSuits, circleSuits, honorTiles, emptyTile} = require('./tiles.js');
-}
+import {Hand, bambooSuits, characterSuits, circleSuits, honorTiles, emptyTile} from './tiles.js';
 const yakuInfo = [
     ['断么九', 'isTanyao|isTanyaochu', 'isAllSimples'],
     ['一盃口', 'isIpeiko', 'isOneSetOfIdenticalSequences'],
