@@ -1,7 +1,6 @@
 'use strict';
 class Tile {
-    constructor(kind, string, isDora) {
-        if (typeof isDora === 'undefined') isDora = false;
+    constructor(kind, string, isDora = false) {
         this.kind = kind;
         this.string = string;
         this.isRotated = false;
@@ -23,7 +22,7 @@ class Tile {
         return res;
     }
 };
-class Hand {
+export class Hand {
     constructor(hand) {
         this.hand = hand; // this includes the tile which player has drew.
         this.pong = []; // array of the tiles which is made by calling pong
@@ -94,38 +93,24 @@ class Hand {
         }
     }
 };
-const bambooSuits = [
-    null,
+export const bambooSuits = [
     new Tile('bamboo', '1'), new Tile('bamboo', '2'), new Tile('bamboo', '3'),
     new Tile('bamboo', '4'), new Tile('bamboo', '5'), new Tile('bamboo', '6'),
     new Tile('bamboo', '7'), new Tile('bamboo', '8'), new Tile('bamboo', '9')
 ];
-// bambooSuits[1] === new Tile('bamboo', '1');
-const characterSuits = [
-    null,
+export const characterSuits = [
     new Tile('character', '1'), new Tile('character', '2'), new Tile('character', '3'),
     new Tile('character', '4'), new Tile('character', '5'), new Tile('character', '6'),
     new Tile('character', '7'), new Tile('character', '8'), new Tile('character', '9')
 ];
-const circleSuits = [
-    null,
+export const circleSuits = [
     new Tile('circle', '1'), new Tile('circle', '2'), new Tile('circle', '3'),
     new Tile('circle', '4'), new Tile('circle', '5'), new Tile('circle', '6'),
     new Tile('circle', '7'), new Tile('circle', '8'), new Tile('circle', '9')
 ];
-const honorTiles = [
+export const honorTiles = [
     new Tile('wind', '東'), new Tile('wind', '南'),
     new Tile('wind', '西'), new Tile('wind', '北'),
     new Tile('dragon', '白'), new Tile('dragon', '發'), new Tile('dragon', '中')
 ];
-const emptyTile = new Tile(null, null);
-if (module) {
-    module.exports = {
-        Hand: Hand,
-        bambooSuits: bambooSuits,
-        characterSuits: characterSuits,
-        circleSuits: circleSuits,
-        honorTiles: honorTiles,
-        emptyTile: emptyTile
-    };
-}
+export const emptyTile = new Tile(null, null);

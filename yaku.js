@@ -38,7 +38,7 @@ const translateToJapanese = new Map(
         ) // [[['isTanyao', 'isAllSimples'], ['isTanyaochu', ...]], [['isIpeiko', ...]], ...]
         .reduce((a, b) => a.concat(b), [])
 );
-const translateToChineseCharacter = new Map(yakuInfo.map(item => [item[2], item[0]]));
+export const translateToChineseCharacter = new Map(yakuInfo.map(item => [item[2], item[0]]));
 const translateFromChineseCharacter = new Map(yakuInfo.map(item => [item[0], item[2]]));
 let yakumans = [
     '国士無双',
@@ -64,7 +64,7 @@ const higherYaku = [
     ['混老頭', '混全帯么九']
 ].map(item => item.map(character => translateFromChineseCharacter.get(character)));
 
-function getValidHands(hand) {
+export const getValidHands = hand => {
     // only return the pattern which given hand can consist. each pattern has 4 melds(面子) and an eye(雀頭).
     if (hand.hand.length === 13) return [];
     let res = [];
@@ -157,7 +157,7 @@ function isConcealed(hands) {
     }
     return true;
 }
-function getYaku(hand) {
+export const getYaku = hand => {
     if (judgeFunctions.get('isThirteenOrphans')(hand)) {
         const yakuList = createYakuList();
         yakuList.hand = hand;
@@ -219,7 +219,7 @@ function getYaku(hand) {
     }
     return res;
 }
-function createHandFromString(string) {
+export const createHandFromString = string => {
     const hand = new Hand([]);
     const suitsPattern = /(\+)?(イー|リャン|サン|スー|ウー|ロー|チー|パー|キュー|\d)(ピン|ソー|マン|ワン|[psm])(R?) ?/g;
     const honorPattern = /(\+)?([東南西北白發中]) ?/g;
@@ -273,9 +273,9 @@ function createHandFromString(string) {
         let tile;
         const num = numberDic.get(_num);
 
-        if (kind === 'ソー' || kind === 's') tile = bambooSuits[num];
-        if (kind === 'マン' || kind === 'ワン' || kind === 'm') tile = characterSuits[num];
-        if (kind === 'ピン' || kind === 'p') tile = circleSuits[num];
+        if (kind === 'ソー' || kind === 's') tile = bambooSuits[num - 1];
+        if (kind === 'マン' || kind === 'ワン' || kind === 'm') tile = characterSuits[num - 1];
+        if (kind === 'ピン' || kind === 'p') tile = circleSuits[num - 1];
 
         if (isDora === 'R') tile = new Tile(tile.kind, tile.string, true);
 
@@ -497,12 +497,3 @@ const judgeFunctions = new Map([
         );
     }],
 ]);
-// console.log(Object.keys(judgeFunctions));
-if (module) {
-    module.exports = {
-        getYaku: getYaku,
-        getValidHands: getValidHands,
-        translateToChineseCharacter: translateToChineseCharacter,
-        createHandFromString: createHandFromString
-    };
-}
