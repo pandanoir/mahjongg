@@ -54,16 +54,25 @@ export default class Table {
     }
     draw() {
         this.lastDrawPosition++;
+        this.lastDrawPosition += this.size;
         this.lastDrawPosition %= this.size;
         return this.wall[this.lastDrawPosition];
     }
     getDora() {
-        const doraOffset = this.startPosition - 6;
+        const offsets = this.getDoraOffsets();
         const doras = [];
-        for (let i = 0; i < this.kongCount + 1; i++) {
-            doras.push(this.wall[(doraOffset - i * 2) % this.size]);
+        for (let i = 0, _i = offsets.length; i < _i; i++) {
+            doras.push(this.wall[offsets[i]]);
         }
         return doras;
+    }
+    getDoraOffsets() {
+        const offset = [];
+        const doraOffset = this.startPosition - 6;
+        for (let i = 0; i < this.kongCount + 1; i++) {
+            offset.push((doraOffset - i * 2) % this.size);
+        }
+        return offset;
     }
     getWall(direction) {
         const wallOffset = wallNumber[direction] * this.wallSize;
