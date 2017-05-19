@@ -34,13 +34,14 @@ export default class Table {
         this.deadWallPosition = this.startPosition - 14;
         this.lastDrawPosition = this.startPosition - 1;
 
-        this.startPosition %= this.size;
-        this.deadWallPosition %= this.size;
-        this.lastDrawPosition %= this.size;
+        this.startPosition = (this.startPosition + this.size) % this.size;
+        this.deadWallPosition = (this.deadWallPosition + this.size) % this.size;
+        this.lastDrawPosition = (this.lastDrawPosition + this.size) % this.size;
     }
     kong() {
         this.kongCount++;
         this.deadWallPosition--;
+        this.deadWallPosition += this.size;
         this.deadWallPosition %= this.size;
     }
     shuffle() {
