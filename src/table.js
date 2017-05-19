@@ -23,11 +23,13 @@ export default class Table {
         this.size = this.tiles.length;
         this.wallSize = this.tiles.length / 4;
         this.wall = tiles;
+        this.wind = EAST;
+        this.leader = 0; // the index of player. anticlockwise.
     }
     start(dice) {
         // dice is the sum of two dices
         this.kongCount = 0;
-        this.startPosition = [1, 0, 3, 2][dice % 4] * this.wallSize + dice * 2;
+        this.startPosition = [1, 0, 3, 2][(dice + this.leader) % 4] * this.wallSize + dice * 2;
         this.deadWallPosition = this.startPosition - 14;
         this.lastDrawPosition = this.startPosition - 1;
 
