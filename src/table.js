@@ -1,4 +1,5 @@
 // EAST => NORTH => WEST => SOUTH
+import {emptyTile} from './tiles.js';
 export const [EAST, SOUTH, WEST, NORTH] = ['east', 'south', 'west', 'north'];
 const nextDirection = new Map([[EAST, NORTH], [NORTH, WEST], [WEST, SOUTH], [SOUTH, EAST]]);
 const prevDirection = new Map([[EAST, NORTH], [NORTH, WEST], [WEST, SOUTH], [SOUTH, EAST]].map(_ => [_[1], _[0]]));
@@ -78,7 +79,23 @@ export default class Table {
     }
     getWall(direction) {
         const wallOffset = wallNumber[direction] * this.wallSize;
-        return this.wall.slice(wallOffset, wallOffset + this.wallSize);
+        if (this.startPosition - 1 === this.lastDrawPosition) {
+            return this.wall.slice(wallOffset, wallOffset + this.wallSize);
+        }
+        if (this.startPosition - 1 > this.lastDrawPosition) {
+            // + ===SxxxxxxxxxxxxE=== 0
+            return this.wall.slice(0, this.lastDrawPosition + 1).fill(emptyTile)
+                .concat(this.wall.slice(this.lastDrawPosition + 1, this.startPosition))
+                .concat(this.wall.slice(this.startPosition).fill(emptyTile))
+                .slice(wallOffset, wallOffset + this.wallSize);
+        }
+        // + xxxxxE========Sxxxxx 0
+        // + xxxxxxxxxxxxxE=====S 0
+        // + E=====Sxxxxxxxxxxxxx 0
+        return this.wall.slice(0, this.startPosition)
+            .concat(this.wall.slice(this.startPosition, this.lastDrawPosition).fill(emptyTile))
+            .concat(this.wall.slice(this.lastDrawPosition))
+            .slice(wallOffset, wallOffset + this.wallSize);
     }
     getDeadWall() {
         if (this.deadWallPosition + 14 > this.size) {
