@@ -94,8 +94,8 @@ export default class Table {
         // + xxxxxxxxxxxxxE=====S 0
         // + E=====Sxxxxxxxxxxxxx 0
         return this.wall.slice(0, this.startPosition)
-            .concat(this.wall.slice(this.startPosition, this.lastDrawPosition).fill(emptyTile))
-            .concat(this.wall.slice(this.lastDrawPosition))
+            .concat(this.wall.slice(this.startPosition, this.lastDrawPosition + 1).fill(emptyTile))
+            .concat(this.wall.slice(this.lastDrawPosition + 1))
             .slice(wallOffset, wallOffset + this.wallSize);
     }
     getDeadWall() {
