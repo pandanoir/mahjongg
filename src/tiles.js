@@ -1,4 +1,5 @@
 'use strict';
+import './includes.js';
 class Tile {
     constructor(kind, string, isDora = false) {
         this.kind = kind;

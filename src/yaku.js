@@ -1,5 +1,6 @@
 'use strict';
 import {Hand, bambooSuits, characterSuits, circleSuits, honorTiles, emptyTile} from './tiles.js';
+import './includes.js';
 const yakuInfo = [
     ['断么九', 'isTanyao|isTanyaochu', 'isAllSimples'],
     ['一盃口', 'isIpeiko', 'isOneSetOfIdenticalSequences'],
